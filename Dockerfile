@@ -46,10 +46,6 @@ RUN apt update && \
     ./copy.sh && \
     rm copy.sh && \
     echo ====================================================================== && \
-    echo clean apt && \
-    echo ====================================================================== && \
-    rm -rf /var/lib/apt/lists/* && \
-    echo ====================================================================== && \
     echo prepare a user usr with password usr && \
     echo ====================================================================== && \
     useradd -m usr && \
@@ -63,3 +59,12 @@ RUN apt update && \
     sed -i "s/libgfortran3/libgfortran5/g" install_prerequisites.sh && \
     ./install_prerequisites.sh && \
     mv install_prerequisites.sh.back install_prerequisites.sh
+
+# install intel GPU dependencies
+RUN cd /opt/intel/openvino/install_dependencies && \
+    cp install_NEO_OCL_driver.sh copy.sh && \
+    sed -i "s/ _check_distro_version/ #_check_distro_version/" copy.sh && \
+    sed -i "s/ add_user_to_video_group/ #add_user_to_video_group/" copy.sh && \
+    ./copy.sh && \
+    rm copy.sh && \
+    usermod -aG video usr

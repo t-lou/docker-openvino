@@ -5,3 +5,7 @@
 
 
 the image contains a user with username usr and password usr
+
+
+![screenshot cpu](https://github.com/t-lou/docker-openvino/blob/master/cpu.png)
+![screenshot gpu](https://github.com/t-lou/docker-openvino/blob/master/gpu.png)
