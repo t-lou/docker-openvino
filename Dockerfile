@@ -58,7 +58,8 @@ RUN apt update && \
     cp install_prerequisites.sh install_prerequisites.sh.back && \
     sed -i "s/libgfortran3/libgfortran5/g" install_prerequisites.sh && \
     ./install_prerequisites.sh && \
-    mv install_prerequisites.sh.back install_prerequisites.sh
+    mv install_prerequisites.sh.back install_prerequisites.sh && \
+    apt clean && apt autoclean && rm -rf /var/cache/apt/archives/*
 
 # install intel GPU dependencies
 RUN cd /opt/intel/openvino/install_dependencies && \
@@ -67,4 +68,10 @@ RUN cd /opt/intel/openvino/install_dependencies && \
     sed -i "s/ add_user_to_video_group/ #add_user_to_video_group/" copy.sh && \
     ./copy.sh && \
     rm copy.sh && \
-    usermod -aG video usr
+    usermod -aG video usr && \
+    apt clean && apt autoclean && rm -rf /var/cache/apt/archives/*
+
+# install some more dependencies
+RUN apt install -y build-essential python3-pip virtualenv cmake libcairo2-dev libpango1.0-dev \
+    libglib2.0-dev libgtk2.0-dev libswscale-dev libavcodec-dev libavformat-dev libgstreamer1.0-0 gstreamer1.0-plugins-base && \
+    apt clean && apt autoclean && rm -rf /var/cache/apt/archives/*
